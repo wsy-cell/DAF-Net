@@ -1,0 +1,17 @@
+__pycache__/
+*.py[cod]
+.venv/
+outputs/
+datasets/
+*.tmp
+.ipynb_checkpoints/
+
+# Private/raw environment exports and installation logs
+environment-export*.yml
+environment-export*.yaml
+conda-export*.yml
+conda-export*.yaml
+.conda/
+pkgs/
+pip-install*.log
+conda-install*.log

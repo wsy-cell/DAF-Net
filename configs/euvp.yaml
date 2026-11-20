@@ -1,0 +1,66 @@
+dataset: euvp
+training:
+  input_dir: datasets/euvp/train/input-1985
+  label_dir: datasets/euvp/train/gt-1985
+  test_input_dir: datasets/euvp/test/input-200_resize256
+  test_label_dir: datasets/euvp/test/gt-200_resize256
+  csv_path: degradation_labels/euvp/degradation_labels.csv
+  save_dir: outputs/euvp/weights
+  result_dir: outputs/euvp/training_images
+  pretrained_weight_path: null
+  batch_size: 4
+  lr_base: 0.0002
+  epochs: 1000
+  model_save_every: 10
+  image_save_every: 10
+  seed: 42
+  lambda_ssim: 0.2
+  lambda_spb: 0.3
+  lambda_scb: 0.3
+  guide_start: 0.3
+  guide_end: 0.0
+  entropy_start: 0.05
+  entropy_end: 0.001
+  warmup_epochs: 50
+  guide_epochs: 200
+  use_dsos_alternating: true
+  dsos_cycle_epochs: 20
+  high_precision_modules:
+  - spb.t_head
+  - spb.veil_head
+  - scb.alpha_head
+  - scb.spec_head
+  - sfm
+  - recon
+  low_precision_modules:
+  - shared_stem
+  - spb.backbone
+  - scb.backbone
+  - enc_spb
+  - enc_scb
+  weight_decay: 0.0001
+  lr_min: 1.0e-06
+  T_0: 100
+  T_mult: 2
+  ema_decay: 0.999
+  precision_shared_stem: int4
+  precision_expert_backbone: binary
+  precision_encoder: int8
+  precision_sfm: int8
+  precision_recon: int8
+checkpoint: checkpoints/euvp/best_model_ema.pth
+stage01:
+  input_dir: datasets/euvp/train/input-1985
+  output_dir: outputs/euvp/degradation_labels
+evaluation:
+  TEST_INPUT_DIR: datasets/euvp/test/input-200_resize256
+  TEST_LABEL_DIR: datasets/euvp/test/gt-200_resize256
+  SAVE_PATH: outputs/euvp/evaluation/results.txt
+  image_dir: outputs/euvp/test_images
+  INPUT_SIZE:
+  - 1
+  - 9
+  - 256
+  - 256
+  FPS_WARMUP: 50
+  FPS_ITERS: 1000
